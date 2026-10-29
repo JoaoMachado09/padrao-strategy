@@ -1,0 +1,51 @@
+@startuml diagrama-classes
+title Strategy - Formas de Pagamento de um Pedido
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam class {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+  ArrowColor #333333
+}
+hide empty members
+class Pedido {
+  - valorPago : float
+  + getValorPago() : float
+  + pagarComPix(valor : float)
+  + pagarComBoleto(valor : float)
+  + pagarComCartaoDebito(valor : float)
+  + pagarComCartaoCredito(valor : float)
+}
+class Caixa {
+  - valor : float
+  + Caixa(valor : float)
+  + calcular(formaPagamento : FormaPagamento) : float
+}
+interface FormaPagamento {
+  + calcular(valor : float) : float
+}
+class PagamentoPix {
+  + calcular(valor : float) : float
+}
+class PagamentoBoleto {
+  + calcular(valor : float) : float
+}
+class PagamentoCartaoDebito {
+  + calcular(valor : float) : float
+}
+class PagamentoCartaoCredito {
+  + calcular(valor : float) : float
+}
+
+Pedido ..> Caixa
+Pedido ..> PagamentoPix
+Pedido ..> PagamentoBoleto
+Pedido ..> PagamentoCartaoDebito
+Pedido ..> PagamentoCartaoCredito
+Caixa ..> FormaPagamento : usa
+FormaPagamento <|.. PagamentoPix
+FormaPagamento <|.. PagamentoBoleto
+FormaPagamento <|.. PagamentoCartaoDebito
+FormaPagamento <|.. PagamentoCartaoCredito
+@enduml
